@@ -1,0 +1,64 @@
+import requests
+
+class SSCAPI:
+    def __init__(self, ssc_url="https://ssc.skplanet.com/ssc"):
+        self.ssc = ssc_url
+        self.session = requests.Session()
+
+    def login(self, username, password):
+        # 로그인 URL
+        login_url = f"{self.ssc}/j_spring_security_check"
+        login_data = {
+            'j_username': username,
+            'j_password': password
+        }
+
+        # 로그인 요청
+        login_response = self.session.post(login_url, data=login_data, allow_redirects=True)
+
+        # 로그인 성공 여부 확인 (리디렉션 된 후 URL이 대시보드나 메인 페이지를 가리키는지 확인)
+        if login_response.status_code == 200 or login_response.status_code == 302:
+            print("Login successful")
+            return True
+        else:
+            print(f"Login failed: {login_response.status_code} - {login_response.text}")
+            return False
+
+    def get_issues(self, parent_id, start=0, limit=-1, **kwargs):
+        if not self.session:
+            print("No session found. Please login first.")
+            return
+
+        url = f"{self.ssc}/api/v1/projectVersions/{parent_id}/issues"
+
+        params = {
+            "start": start,
+            "limit": limit,
+        }
+        params.update(kwargs)
+
+        response = self.session.get(url, params=params)
+
+        if response.status_code == 200:
+            print("Issues retrieved successfully")
+            return response.json()
+        else:
+            print(f"Failed to retrieve issues: {response.status_code} - {response.text}")
+            return None
+
+# Example usage
+ssc_api = SSCAPI()
+
+# 로그인 정보 설정
+username = "pc09164"
+password = "SPths0080<<"
+
+# 로그인 시도
+if ssc_api.login(username, password):
+    # 로그인 성공 시, 프로젝트 버전 이슈 가져오기
+    issues = ssc_api.get_issues(parent_id=462, start=0, limit=10, showhidden=True, showremoved=False, showsuppressed=False)
+    
+    if issues:
+        # 가져온 이슈 출력
+        print(issues)
+

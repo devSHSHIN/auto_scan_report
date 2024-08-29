@@ -1,0 +1,63 @@
+import json
+
+def process_data_from_file(file_path):
+    # JSON 파일을 읽어오기
+    with open(file_path, 'r', encoding='utf-8') as f:
+        data = json.load(f)
+
+    result = []
+    header_printed = False
+
+    for pkg_name, issues in data.get('deps_vuln_y', {}).items():
+        upgrade_msgs = []
+        for issue in issues:
+            severity = issue['issueData']['severity']
+            if severity in ['low', 'license']:
+                continue
+
+            url = issue['issueData']['url'].replace("https://snyk.io", "https://security.snyk.io")
+            fixed_in_versions = issue['fixInfo']['fixedIn']
+            last_fixed_version = fixed_in_versions[-1] if fixed_in_versions else None
+
+            if fixed_in_versions:
+                msg = f"  Upgrade {pkg_name}@{issue['issueData']['pkgVersions']} to {pkg_name}@{last_fixed_version} to fix\n"
+                msg += f"  ✗ {issue['issueData']['title']} [{severity.capitalize()} Severity][{url}] in {pkg_name}@{issue['issueData']['pkgVersions']}\n"
+                msg += f"    introduced by {pkg_name}@{issue['issueData']['pkgVersions']} > {pkg_name}@{last_fixed_version}"
+
+                if len(fixed_in_versions) > 1:
+                    msg += f" and {len(fixed_in_versions) - 1} other path(s)"
+                
+                upgrade_msgs.append(msg)
+            else:
+                msg = f"  ✗ {issue['issueData']['title']} [{severity.capitalize()} Severity][{url}] in {pkg_name}@{issue['issueData']['pkgVersions']}\n"
+                msg += f"    introduced by {pkg_name}@{issue['issueData']['pkgVersions']}\n  No upgrade or patch available"
+                upgrade_msgs.append(msg)
+
+        if upgrade_msgs:
+            if not header_printed:
+                result.append("Issues to fix by upgrading:")
+                header_printed = True
+            result.append(f"\n{upgrade_msgs[0]}")
+            if len(upgrade_msgs) > 1:
+                result.extend(upgrade_msgs[1:])
+
+    for pkg_name, issues in data.get('deps_vuln_n', {}).items():
+        for issue in issues:
+            severity = issue['issueData']['severity']
+            if severity in ['low', 'license']:
+                continue
+
+            url = issue['issueData']['url'].replace("https://snyk.io", "https://security.snyk.io")
+            msg = f"  ✗ {issue['issueData']['title']} [{severity.capitalize()} Severity][{url}] in {pkg_name}@{issue['issueData']['pkgVersions']}\n"
+            msg += f"    introduced by {pkg_name}@{issue['issueData']['pkgVersions']}\n  No upgrade or patch available"
+            result.append(f"Issues with no direct upgrade or patch:\n{msg}")
+
+    return "\n".join(result)
+
+# JSON 파일 경로 입력
+file_path = '/home/fortify/auto_scan_report/data/tmp/test.json'
+
+# 결과를 출력
+output = process_data_from_file(file_path)
+print(output)
+
