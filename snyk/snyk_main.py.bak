@@ -1,11 +1,10 @@
-import os
+import json
 import argparse
 import pandas as pd
-from dotenv import load_dotenv
 from .client import SnykClient
+from .utils import get_default_token_path, get_token
 from .call_api import call_issues
 from .latest_version import latest_version
-from .utils import get_default_token_path, get_token
 
 
 def load_organization(root_path):
