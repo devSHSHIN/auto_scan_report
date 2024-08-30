@@ -1,7 +1,6 @@
 import os
 import argparse
 import pandas as pd
-from dotenv import load_dotenv
 from .client import SnykClient
 from .call_api import call_issues
 from .latest_version import latest_version

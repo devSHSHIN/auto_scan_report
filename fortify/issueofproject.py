@@ -1,9 +1,9 @@
-import requests
-import json
 import os
+import json
+import requests
 
 class SSCAPI:
-    def __init__(self, ssc_url="https://ssc.skplanet.com/ssc"):
+    def __init__(self, ssc_url=os.getenv("SSC_URL")ㅋ):
         self.ssc = ssc_url
         self.token = None
 

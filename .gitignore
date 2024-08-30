@@ -1,6 +1,4 @@
 # User data
-.gitignore
-.DS_Store
 data/
 *.json
 *.db

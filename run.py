@@ -1,10 +1,12 @@
 import os
-import sys
 import argparse
+from dotenv import load_dotenv
 from snyk.snyk_main import snyk_main
 
 
 def main(pro_id):
+    load_dotenv()
+    
     root_path = os.path.dirname(os.path.abspath(__file__))
 
     print("================================")
