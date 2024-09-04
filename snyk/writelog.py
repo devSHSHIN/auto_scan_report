@@ -8,31 +8,29 @@ def process_data_from_file(file_path):
     result = []
     header_printed = False
 
-    # deps_vuln_y 항목 처리
     for pkg_name, issues in data.get('deps_vuln_y', {}).items():
         upgrade_msgs = []
-        for index, issue in enumerate(issues):
-            severity = issue['issueData'].get('severity', 'Unknown')
+        for issue in issues:
+            severity = issue['issueData']['severity']
             if severity in ['low', 'license']:
                 continue
 
-            pkg_versions = issue.get('pkgVersions', 'Unknown version')
-            url = issue['issueData'].get('url', '').replace("https://snyk.io", "https://security.snyk.io")
-            fixed_in_versions = issue['fixInfo'].get('fixedIn', [])
+            url = issue['issueData']['url'].replace("https://snyk.io", "https://security.snyk.io")
+            fixed_in_versions = issue['fixInfo']['fixedIn']
             last_fixed_version = fixed_in_versions[-1] if fixed_in_versions else None
 
             if fixed_in_versions:
-                msg = f"  Upgrade {pkg_name}@{pkg_versions} to {pkg_name}@{last_fixed_version} to fix\n"
-                msg += f"  ✗ {issue['issueData'].get('title', 'No title')} [{severity.capitalize()} Severity][{url}] in {pkg_name}@{pkg_versions}\n"
-                msg += f"    introduced by {pkg_name}@{pkg_versions} > {pkg_name}@{last_fixed_version}"
+                msg = f"  Upgrade {pkg_name}@{issue['issueData']['pkgVersions']} to {pkg_name}@{last_fixed_version} to fix\n"
+                msg += f"  ✗ {issue['issueData']['title']} [{severity.capitalize()} Severity][{url}] in {pkg_name}@{issue['issueData']['pkgVersions']}\n"
+                msg += f"    introduced by {pkg_name}@{issue['issueData']['pkgVersions']} > {pkg_name}@{last_fixed_version}"
 
                 if len(fixed_in_versions) > 1:
                     msg += f" and {len(fixed_in_versions) - 1} other path(s)"
                 
                 upgrade_msgs.append(msg)
             else:
-                msg = f"  ✗ {issue['issueData'].get('title', 'No title')} [{severity.capitalize()} Severity][{url}] in {pkg_name}@{pkg_versions}\n"
-                msg += f"    introduced by {pkg_name}@{pkg_versions}\n  No upgrade or patch available"
+                msg = f"  ✗ {issue['issueData']['title']} [{severity.capitalize()} Severity][{url}] in {pkg_name}@{issue['issueData']['pkgVersions']}\n"
+                msg += f"    introduced by {pkg_name}@{issue['issueData']['pkgVersions']}\n  No upgrade or patch available"
                 upgrade_msgs.append(msg)
 
         if upgrade_msgs:
@@ -43,39 +41,21 @@ def process_data_from_file(file_path):
             if len(upgrade_msgs) > 1:
                 result.extend(upgrade_msgs[1:])
 
-    result.append("\n\nIssues with no direct upgrade or patch:")
-
-    # deps_vuln_n 항목 처리 (업그레이드나 패치가 없는 경우)
     for pkg_name, issues in data.get('deps_vuln_n', {}).items():
-        for index, issue in enumerate(issues):
-            severity = issue['issueData'].get('severity', 'Unknown')
+        for issue in issues:
+            severity = issue['issueData']['severity']
             if severity in ['low', 'license']:
                 continue
 
-            pkg_versions = issue.get('pkgVersions', 'Unknown version')
-            url = issue['issueData'].get('url', '').replace("https://snyk.io", "https://security.snyk.io")
-            introduced_by = issue.get('introducedThrough', f"{pkg_name}@{pkg_versions}")
-            fixed_in_versions = issue['fixInfo'].get('fixedIn', [])
-
-            msg = f"  ✗ {issue['issueData'].get('title', 'No title')} [{severity.capitalize()} Severity][{url}] in {pkg_name}@{pkg_versions}\n"
-            msg += f"    introduced by {introduced_by}"
-
-            if fixed_in_versions:
-                fixed_versions_str = ', '.join(fixed_in_versions)
-                msg += f"\n  This issue was fixed in versions: {fixed_versions_str}"
-            else:
-                msg += f"\n  No upgrade or patch available"
-
-            if not header_printed:
-                result.append("Issues with no direct upgrade or patch:")
-                header_printed = True
-            
-            result.append(msg)
+            url = issue['issueData']['url'].replace("https://snyk.io", "https://security.snyk.io")
+            msg = f"  ✗ {issue['issueData']['title']} [{severity.capitalize()} Severity][{url}] in {pkg_name}@{issue['issueData']['pkgVersions']}\n"
+            msg += f"    introduced by {pkg_name}@{issue['issueData']['pkgVersions']}\n  No upgrade or patch available"
+            result.append(f"Issues with no direct upgrade or patch:\n{msg}")
 
     return "\n".join(result)
 
 # JSON 파일 경로 입력
-file_path = '/home/fortify/auto_scan_report/data/tmp/test.json'
+file_path = '/Users/pc09164/auto_scan_report/data/snyk_issues.json'
 
 # 결과를 출력
 output = process_data_from_file(file_path)

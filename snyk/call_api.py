@@ -128,7 +128,7 @@ def refactor_issues(issue_set):
 
 
 def save_data(data, root_path):
-    with open(f"{root_path}/data/tmp/test.json", "w") as f:
+    with open(f"{root_path}/data/issues.json", "w") as f:
         json.dump(data, f, indent=4)
 
 

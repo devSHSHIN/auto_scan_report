@@ -1,9 +1,12 @@
 import os
 import json
+import pandas as pd
 from openpyxl import Workbook
 from dotenv import load_dotenv
 
 load_dotenv()
+
+df = pd.read_json()
 
 result_file_path = os.path.expandvars(os.getenv("RESULT_FILE_PATH"))
 print(f"{result_file_path}")

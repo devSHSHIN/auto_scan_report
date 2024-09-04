@@ -1,7 +1,7 @@
 import json
 
-input_file_path = "/home/fortify/auto_scan_report/data/tmp/test.json"
-output_file_path = "/home/fortify/auto_scan_report/data/tmp/test_over_high.json"
+input_file_path = "/Users/pc09164/auto_scan_report/data/issues.json"
+output_file_path = "/Users/pc09164/auto_scan_report/data/over_high_issues.json"
 
 with open(input_file_path, "r") as f:
     data = json.load(f)
