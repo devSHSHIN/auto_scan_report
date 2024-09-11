@@ -58,7 +58,14 @@ def main():
     run_command(f"cp -f {fpr_tmp} {l_fpr_file}")
 
     # 11. sscid 명령 실행
-    run_command(f"sscid {build_id}")
+    scripts_path = os.path.expandvars(os.getenv('SCRIPT_DIR'))
+    output = run_command(f"{scripts_path}/_listappids.sh | grep {build_id}")
+
+    if output:
+        sscid = output.split()[0]
+    else:
+        print("\033[91m[오류]\033[0m SSC > {build_id} 서비스가 확인되지 않습니다.")
+
 
 if __name__ == "__main__":
     main()
