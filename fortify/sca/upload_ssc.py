@@ -3,8 +3,8 @@ import sys
 import subprocess
 from dotenv import load_dotenv
 
-load_dotenv()
-
+# load_dotenv(dotenv_path='../../.env')
+load_dotenv(dotenv_path='/home/pc09164/auto_scan_report/.env')
 
 def find_fpr_file(target_path='.'):
     fpr_files = []

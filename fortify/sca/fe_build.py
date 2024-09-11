@@ -3,6 +3,7 @@ import sys
 import subprocess
 from datetime import datetime
 from dotenv import load_dotenv
+from .upload_ssc import upload_ssc
 
 load_dotenv(dotenv_path='../../.env')
 
@@ -58,14 +59,14 @@ def main():
     run_command(f"cp -f {fpr_tmp} {l_fpr_file}")
 
     # 11. sscid 명령 실행
+    sscid = 0
     scripts_path = os.path.expandvars(os.getenv('SCRIPT_DIR'))
-    output = run_command(f"{scripts_path}/_listappids.sh | grep {build_id}")
+    sscid = run_command(f"{scripts_path}/_listappids.sh | grep {build_id}").split()[0]
 
-    if output:
-        sscid = output.split()[0]
-    else:
-        print("\033[91m[오류]\033[0m SSC > {build_id} 서비스가 확인되지 않습니다.")
-
+    # 12. ssc 업로드
+    if sscid == 0 :
+        print("\033[91m[오류]\033[0m SSC에 {build_id} 서비스가 확인되지 않습니다.")
+    upload_ssc(sscid, l_fpr_file)
 
 if __name__ == "__main__":
     main()
