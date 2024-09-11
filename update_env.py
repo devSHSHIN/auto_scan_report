@@ -5,7 +5,7 @@ load_dotenv()
 
 current_folder = os.path.basename(os.getcwd())
 
-env_file_path = os.path.join(os.path.expandvars(os.getenv("SCRIPTS_PATH")), '.env')
+env_file_path = os.path.join(os.path.expandvars(os.getenv("ENV_PATH")), '.env')
 
 if not os.path.exists(env_file_path):
     with open(env_file_path, 'w') as file:
