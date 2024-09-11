@@ -2,9 +2,13 @@ import os
 import sys
 import subprocess
 from datetime import datetime
+from dotenv import load_dotenv
+
+load_dotenv(dotenv_path='../../.env')
 
 def run_command(command):
     """ 터미널 명령어 실행 및 오류 처리 """
+    print(f"\n[시작] {command}")
     try:
         result = subprocess.run(command, shell=True, check=True, capture_output=True, text=True)
         print(f"\033[32m[성공]\033[0m {command}: {result.stdout}")
@@ -16,10 +20,11 @@ def main():
     # 1. BUILD_ID 환경 변수 설정
     os.environ['BUILD_ID'] = os.path.basename(os.getcwd())
     build_id = os.getenv('BUILD_ID')
-    print(f"[정보] BUILD_ID가 {build_id}로 설정되었습니다.")
 
     # 2. 현재 시간 가져오기
     current_time = datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    print(f"[정보] {build_id} 서비스의 진단을 시작합니다. | {current_time}")
 
     # 3. sourceanalyzer -clean 명령 실행
     run_command(f"sourceanalyzer -b {build_id} -clean")
