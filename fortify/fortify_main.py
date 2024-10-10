@@ -1,6 +1,9 @@
 import os
-import requests
 import json
+import requests
+from dotenv import load_dotenv
+
+load_dotenv("Users/pc09164/auto_scan_report/.env")
 
 def login(ssc_url):
     username = os.getenv("SSC_USERNAME")

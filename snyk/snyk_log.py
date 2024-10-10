@@ -115,7 +115,8 @@ def process_data_from_file(file_path):
     return "\n".join(result)
 
 # JSON 파일 경로 입력
-file_path = '/Users/pc09164/auto_scan_report/data/snyk_issues.json'
+#file_path = '/Users/pc09164/auto_scan_report/data/snyk_issues.json'
+file_path = '/Users/pc09164/auto_scan_report/data/issues.json'
 
 # 결과를 파일로 저장하는 함수
 def save_output_to_file(output, output_path):

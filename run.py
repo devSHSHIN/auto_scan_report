@@ -19,7 +19,7 @@ def main():
 
     match comm:
         case "1":
-            #fortify_main(root_path, pro_id)
+            fortify_main(root_path, pro_id)
             return
         case "2":
             fortify_main(root_path, pro_id)
