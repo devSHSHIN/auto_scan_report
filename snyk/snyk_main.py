@@ -25,7 +25,6 @@ def snyk_main(root_path=".", pro_id=None):
     sorted_issues = sort_json_by_severity(issues)
     print(f"sort issues :\t\t{sorted_issues}")
     processed_data = process_all_data(sorted_issues)
-    print(f"to processed data :\t{processed_data}")
 
     return
 
