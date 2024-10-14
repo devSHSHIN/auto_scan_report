@@ -1,5 +1,4 @@
 import os
-#import argparse
 import pandas as pd
 from .client import SnykClient
 from .utils import get_default_token_path, get_token

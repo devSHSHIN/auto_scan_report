@@ -1,7 +1,6 @@
 import os
 import re
 import json
-import semver
 import pandas as pd
 from datetime import datetime
 from packaging.version import Version, InvalidVersion
@@ -137,21 +136,21 @@ def process_deps_vuln_y(data):
 
         # 각 항목을 리스트로 구성
         processed_row = [
-            index,                                    # 인덱스 값
-            "|Platform|",                                     # 공백(null)
-            first_issue.get('issueData.title'),              # issueData.title
-            "|week|",                                     # 공백(null)
-            current_date,                             # 현재 날짜 (yyyy-mm-dd)
-            "-",
-            first_issue.get('issueData.severity'),           # issueData.severity
-            pkg_name,                                 # pkgName
+            index,
+            "",     #플랫폼 구분 [Ex. API WEB ...]
+            first_issue.get('issueData.title'),
+            "",     #점검결과 [취약(Red)]
+            current_date,
+            "",     #이행 점검 결과 [1행 -]            first_issue.get('issueData.severity'),
+            first_issue.get('issueData.severity'),
+            pkg_name,
             first_issue.get('pkgVersions'),
-            latest_version,                           # latest_version 함수 반환 값
-            len(issues) - 1,                          # 해당 pkgName 리스트의 데이터 갯수 -1
-            None,                                     # 공백(null)
-            None,                                     # 공백(null)
-            None,                                     # 공백(null)
-            None,                                     # 공백(null)
+            latest_version,
+            len(issues) - 1,
+            "",
+            "",
+            "",
+            "",
         ]
         
         # 리스트에 추가
@@ -190,20 +189,19 @@ def process_deps_vuln_n(data):
     # 각 항목을 리스트로 구성 (latest_version을 사용하지 않음)
     processed_row = [
         index,
-        "|Platform|",
+        "",     #플랫폼 구분 [Ex. API WEB ...]
         first_issue.get('issueData.title'),
-        "|week|",
+        "",     #점검결과 [취약(Red)]
         current_date,
-        "-",
+        "",     #이행 점검 결과 [1행 -]
         first_issue.get('issueData.severity'),
         first_issue.get('pkgName'),
         first_issue.get('pkgVersions'),
-        "-",
         other_issues,
-        None,
-        None,
-        None,
-        None,
+        "",
+        "",
+        "",
+        "",
     ]
     
     processed_data.append(processed_row)
@@ -230,10 +228,7 @@ def process_all_data(input_file_path):
 
     processed_data = []
     
-    # deps_vuln_y 데이터 처리
     processed_data.extend(process_deps_vuln_y(data))
-    
-    # deps_vuln_n 데이터 처리 (평탄화 후 1개의 데이터로)
     processed_data.extend(process_deps_vuln_n(data))
 
     output_file_path = '/Users/pc09164/auto_scan_report/data/to_xlsx_issues.json'
