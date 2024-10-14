@@ -2,8 +2,6 @@ import json
 from collections import defaultdict
 from dataclasses import dataclass, asdict
 from typing import List, Dict, Any, Optional
-from .sort_issues import sort_severity_1st
-
 
 @dataclass
 class IssueCounts:
@@ -12,7 +10,6 @@ class IssueCounts:
     medium: int
     low: int
 
-
 @dataclass
 class CvssDetail:
     assigner: str
@@ -20,7 +17,6 @@ class CvssDetail:
     cvssV3Vector: str
     cvssV3BaseScore: float
     modificationTime: str
-
 
 @dataclass
 class IssueData:
@@ -43,7 +39,6 @@ class IssueData:
     nearestFixedInVersion: str
     ignoreReasons: Optional[Any]
 
-
 @dataclass
 class FixInfo:
     isUpgradable: bool
@@ -54,18 +49,15 @@ class FixInfo:
     nearestFixedInVersion: str
     fixedIn: List[str]
 
-
 @dataclass
 class PriorityFactor:
     name: str
     description: str
 
-
 @dataclass
 class Priority:
     score: int
     factors: List[PriorityFactor]
-
 
 @dataclass
 class AggregatedIssue:
@@ -82,7 +74,6 @@ class AggregatedIssue:
     priorityScore: Optional[int]
     priority: Priority
 
-
 def refactor_severity(severity):
     severity_dict = {
         "critical": severity.critical,
@@ -91,7 +82,6 @@ def refactor_severity(severity):
         "low": severity.low,
     }
     return severity_dict
-
 
 def refactor_issues(issue_set):
     deps_vuln_y = defaultdict(list)
@@ -126,18 +116,15 @@ def refactor_issues(issue_set):
             deps_license[issue.pkgName].append(issue_dict)
     return deps_vuln_y, deps_vuln_n, deps_license
 
-
 def save_data(data, root_path):
-    with open(f"{root_path}/data/snyk_issues.json", "w") as f:
+    with open(f"{root_path}/data/snyk_issues.json", "w", encoding='UTF-8') as f:
         json.dump(data, f, indent=4)
-
 
 def filter_over_high(data):
     over_high_data = [
         x for x in data if x["issueData"]["severity"] in ["critical", "high"]
     ]
     return over_high_data
-
 
 def call_issues(client, org_id, pro_id, root_path):
     issue_set = client.organizations.get(org_id).projects.get(pro_id)
@@ -156,14 +143,6 @@ def call_issues(client, org_id, pro_id, root_path):
         "deps_license": deps_license,
     }
 
-    #    over_high_deps_issues = {
-    #        'severity_cnt': over_high_severity,
-    #        'deps_vuln_y': over_high_deps_vuln_y,
-    #        'deps_vuln_n': over_high_deps_vuln_n
-    #    }
-
-    #    solted_issues = sort_severity_1st(deps_issues)
-
-    #    save_data(deps_issues, root_path)
     save_data(deps_issues, root_path)
-    return deps_issues
+    return f"{root_path}/data/snyk_issues.json"
+

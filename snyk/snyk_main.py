@@ -1,12 +1,11 @@
 import os
-import argparse
+#import argparse
 import pandas as pd
 from .client import SnykClient
-from .call_api import call_issues
-from .latest_version import latest_version
 from .utils import get_default_token_path, get_token
-from .snyk_over_high import process_data
-#from .snyk_log import process_data_from_file
+from .reporting.call_api import call_issues
+from .reporting.sorting import sort_json_by_severity
+from .reporting.filter import process_all_data
 
 def get_snyk_client():
     snyk_token_path = get_default_token_path()
@@ -22,18 +21,14 @@ def snyk_main(root_path=".", pro_id=None):
     print(f"pro_id: {pro_id}\n")
 
     issues = call_issues(client, org_id, pro_id, root_path)
-
-
-    input_file_path = "/Users/pc09164/auto_scan_report/data/snyk_issues.json"
-    output_file_path = "/Users/pc09164/auto_scan_report/data/snyk_high_issues.json"
-
-    process_data(input_file_path, output_file_path, simplified=True)
-
-#    process_data_from_file()
+    print(f"call issues :\t\t{issues}")
+    sorted_issues = sort_json_by_severity(issues)
+    print(f"sort issues :\t\t{sorted_issues}")
+    processed_data = process_all_data(sorted_issues)
+    print(f"to processed data :\t{processed_data}")
 
     return
 
 
 if __name__ == "__main__":
     snyk_main()
-
