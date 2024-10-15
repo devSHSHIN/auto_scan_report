@@ -5,6 +5,7 @@ from .utils import get_default_token_path, get_token
 from .reporting.call_api import call_issues
 from .reporting.sorting import sort_json_by_severity
 from .reporting.filter import process_all_data
+from .reporting.write_log import data_to_log
 
 def get_snyk_client():
     snyk_token_path = get_default_token_path()
@@ -15,7 +16,6 @@ def get_snyk_client():
 def snyk_main(root_path=".", pro_id=None):
     org_id = os.getenv("ORG_ID")
     client = get_snyk_client()
-#    pro_id = "e5229c92-0989-4831-b056-251439817d2e"
     print(f"{org_id}\n{client}")
     print(f"pro_id: {pro_id}\n")
 
@@ -24,9 +24,9 @@ def snyk_main(root_path=".", pro_id=None):
     sorted_issues = sort_json_by_severity(issues)
     print(f"sort issues :\t\t{sorted_issues}")
     processed_data = process_all_data(sorted_issues)
+    log_txt = data_to_log(sorted_issues)
 
     return
-
 
 if __name__ == "__main__":
     snyk_main()

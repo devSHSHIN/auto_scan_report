@@ -60,12 +60,6 @@ def del_ml_issues(data):
 ################################################################################
 
 def get_latest_fixed_version(issues):
-    """
-    주어진 pkgName 내의 이슈 리스트에서 fixInfo.fixedIn 값들을 모두 추출하여 최신 버전을 반환하는 함수
-    :param pkg_name: 패키지 이름
-    :param issues: 해당 패키지의 이슈 리스트
-    :return: 가장 최신 버전 (fixInfo.fixedIn 중)
-    """
     all_versions = []
 
     # 모든 이슈에서 fixInfo.fixedIn 버전들을 추출
@@ -112,11 +106,6 @@ def get_latest_fixed_version(issues):
 ################################################################################
 
 def process_deps_vuln_y(data):
-    """
-    deps_vuln_y 데이터를 가공하여 엑셀에 사용할 리스트로 변환
-    :param data: JSON 데이터에서 로드한 deps_vuln_y 데이터를 포함하는 딕셔너리
-    :return: 가공된 리스트 (엑셀 파일로 변환하기 위해 사용)
-    """
     global index
     processed_data = []
     current_date = datetime.now().strftime('%Y-%m-%d')  # 현재 날짜
@@ -128,9 +117,6 @@ def process_deps_vuln_y(data):
         
         first_issue = issues[0]
         
-        # issueData가 있는지 확인하고 기본값 설정
-        issue_data = first_issue.get('issueData', {})
-      
         # latest_version 함수 호출
         latest_version = get_latest_fixed_version(issues)
 
@@ -212,11 +198,6 @@ def process_deps_vuln_n(data):
 ################################################################################
 
 def process_all_data(input_file_path):
-    """
-    JSON 데이터를 로드하여 deps_vuln_y와 deps_vuln_n을 각각 처리한 데이터를 반환하는 함수
-    :param input_file_path: 입력 JSON 파일 경로
-    :return: 가공된 데이터 리스트
-    """
     if not os.path.exists(input_file_path):
         raise FileNotFoundError(f"파일을 찾을 수 없습니다: {input_file_path}")
     
