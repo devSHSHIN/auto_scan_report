@@ -81,7 +81,7 @@ def process_deps_vuln_y(data):
         latest_version = get_latest_fixed_version(issues)
      
         processed_data.append(
-            f"\n\tUpgrade {pkg_name}@{first_issue.get('pkgVersions')} to {pkg_name}@{latest_version} to fix\n"
+            f"\n  Upgrade {pkg_name}@{first_issue.get('pkgVersions')} to {pkg_name}@{latest_version} to fix\n"
         )
 
         for issue in issues:
@@ -92,8 +92,8 @@ def process_deps_vuln_y(data):
             pkg_versions = issue.get('pkgVersions', 'unknown')
 
             processed_data.append(
-                f"\t✗\t{issue_title} [{severity} Severity][{issue_url}] in {pkg_name}@{fixed_in}\n"
-                f"\t\tintroduced by {pkg_name}@{pkg_versions} > {pkg_name}@{fixed_in}\n"
+                f"  ✗ {issue_title} [{severity} Severity][{issue_url}] in {pkg_name}@{fixed_in}\n"
+                f"    introduced by {pkg_name}@{pkg_versions} > {pkg_name}@{fixed_in}\n"
             )
         
     return ''.join(processed_data)
@@ -116,8 +116,8 @@ def process_deps_vuln_n(data):
             pkg_versions = issue.get('pkgVersions', 'unknown')
 
             processed_data.append(
-                f"\t✗\t{issue_title} [{severity} Severity][{issue_url}] in {pkg_name}@{issue.get('pkgVersions')}\n"
-                f"\t\tNo upgrade or patch available\n"
+                f"  ✗ {issue_title} [{severity} Severity][{issue_url}] in {pkg_name}@{issue.get('pkgVersions')}\n"
+                f"  No upgrade or patch available\n"
             )
         
     return ''.join(processed_data)

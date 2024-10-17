@@ -122,6 +122,7 @@ def process_deps_vuln_y(data):
 
         # 각 항목을 리스트로 구성
         processed_row = [
+            "",
             index,
             "",     #플랫폼 구분 [Ex. API WEB ...]
             first_issue.get('issueData.title'),
@@ -174,6 +175,7 @@ def process_deps_vuln_n(data):
  
     # 각 항목을 리스트로 구성 (latest_version을 사용하지 않음)
     processed_row = [
+        "",
         index,
         "",     #플랫폼 구분 [Ex. API WEB ...]
         first_issue.get('issueData.title'),

@@ -15,8 +15,7 @@ def main():
     print("--------------------------------")
     #comm = input('(1)ALL (2)Fortify (3)Snyk: ')
     comm = "3"
-    #pro_id = input('project_ID: ')
-    pro_id = "95aad894-37be-4b8f-bc57-238edfe2120e"
+    pro_id = input('project_ID: ')
 
     match comm:
         case "1":
@@ -31,9 +30,5 @@ def main():
 
 
 if __name__ == "__main__":
-    #parser = argparse.ArgumentParser(description="Run Snyk script with a specified project ID.")
-    #parser.add_argument("pro_id", type=str, help="The project ID to be used in the Snyk API call.")
-
-    #args = parser.parse_args()
-    #pro_id = args.pro_id
     main()
+
