@@ -1,8 +1,8 @@
 import os
 import argparse
 from dotenv import load_dotenv
-from snyk.snyk_main import snyk_main
-from fortify.fortify_main import fortify_main
+from lib_scan.snyk_main import snyk_main
+from fortify_scan.fortify_main import fortify_main
 
 
 def main():
@@ -15,7 +15,8 @@ def main():
     print("--------------------------------")
     #comm = input('(1)ALL (2)Fortify (3)Snyk: ')
     comm = "3"
-    pro_id = input('project_ID: ')
+    #pro_id = input('project_ID: ')
+    pro_id = "c4ca5e62-53de-493a-8028-e903871a69fa"
 
     match comm:
         case "1":

@@ -1,12 +1,12 @@
 import os
 import pandas as pd
-from .client import SnykClient
-from .utils import get_default_token_path, get_token
-from .reporting.call_api import call_issues
-from .reporting.sorting import sort_json_by_severity
-from .reporting.filter import process_all_data
-from .reporting.write_log import data_to_log
-from .reporting.create_xlsx import create_xlsx
+from .snyk.client import SnykClient
+from .snyk.utils import get_default_token_path, get_token
+from .snyk.reporting.call_api import call_issues
+from .snyk.reporting.sorting import sort_json_by_severity
+from .snyk.reporting.filter import process_all_data
+from .snyk.reporting.write_log import data_to_log
+from .snyk.reporting.create_xlsx import create_xlsx
 
 def get_snyk_client():
     snyk_token_path = get_default_token_path()

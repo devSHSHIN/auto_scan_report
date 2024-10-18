@@ -1,5 +1,5 @@
 import argparse
-from get_project_id import get_and_save_snyk_info
+from lib_scan.snyk.get_project_id import get_and_save_snyk_info
 
 def main():
     parser = argparse.ArgumentParser(description="Run Snyk monitor and save project ID.")
