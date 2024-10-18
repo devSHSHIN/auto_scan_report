@@ -63,7 +63,7 @@ def phase_start():
     print(f"Project Name: {project_name}")
     print(f"Branch Name: {project_branch}")
     
-    print(f"\n\n\n\n\033[38;5;220m================================================================================================================================\033[0m\n\n\t\033[38;5;99m[정보|LIB]\033[0m \033[38;5;117m{build_id}\033[0m(MVN) 서비스의 라이브러리 진단을 시작합니다. | \033[38;5;240m{current_time}\033[0m")
+    print(f"\n\n\n\n\033[38;5;220m================================================================================================================================\033[0m\n\n\t\033[38;5;99m[정보|LIB]\033[0m \033[38;5;117m{build_id}\033[0m(MVN)의 CDXGEN 진단을 시작합니다. | \033[38;5;240m{current_time}\033[0m")
 
 # 1 초기화
 def phase_init():
@@ -193,10 +193,10 @@ def phase_upload(sbom_json_file):
 # 8 Package Metadata 처리
 def phase_end(start_time):
 
-    with open(history_file, 'a') as f:
-        f.write(log_text)
+#    with open(history_file, 'a') as f:
+#        f.write(log_text)
         # subprocess.run(comm, shell=True, check=True, capture_output=True, text=True)
-        print(f"\n\t\033[38;5;99m[정보]\033[0m \033[38;5;117m{build_id}\033[0m(MVN) SSC 진단 종료\n\n\033[38;5;220m================================================================================================================================\033[0m\n\n\n\n")
+    print(f"\n\t\033[38;5;99m[정보]\033[0m \033[38;5;117m{build_id}\033[0m(MVN) CDXGEN 진단 종료\n\n\033[38;5;220m================================================================================================================================\033[0m\n\n\n\n")
 
 def extract_project_info(current_dir):
     """

@@ -1,7 +1,7 @@
 import os
 import argparse
 from dotenv import load_dotenv
-from lib_scan.snyk_main import snyk_main
+from lib_scan.lib_scan_run import snyk_main
 from fortify_scan.fortify_main import fortify_main
 
 
