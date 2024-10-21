@@ -54,10 +54,12 @@ def save_to_json(data, save_path):
     with open(json_filename, 'w') as json_file:
         json.dump(existing_data, json_file, indent=4)
 
-def get_and_save_snyk_info(target_path, save_path='/home/fortify/auto_snyk_report/data/snyk_project_id.json'):
+def get_and_save_snyk_info(target_path, save_path='/nfsdata/fortify_work/resNbak/snyk_project_id.json'):
     output_text = run_snyk_monitor(target_path)
     project_id = get_project_id(output_text)
     key = determine_key(target_path)
     data = {key: project_id}
     save_to_json(data, save_path)
+
+    return data
 
