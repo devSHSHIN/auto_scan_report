@@ -15,8 +15,8 @@ def main():
     print("--------------------------------")
     #comm = input('(1)ALL (2)Fortify (3)Snyk: ')
     comm = "3"
-    #pro_id = input('project_ID: ')
-    pro_id = "c4ca5e62-53de-493a-8028-e903871a69fa"
+    pro_id = input('project_ID: ')
+    #pro_id = "c4ca5e62-53de-493a-8028-e903871a69fa"
 
     match comm:
         case "1":

@@ -43,7 +43,7 @@ def get_built_commit_id(src_path):
 # git url 확인
 def get_url_info(input_url, branch_name):
     home_dir = os.getenv("HOME")
-    src_dir = home_dir + "/work/src"
+    src_dir = home_dir + "/fortify_work/src"
 
     bitbucket_username = os.getenv("BITBUCKET_ID")
     bitbucket_password = os.getenv("BITBUCKET_PW")

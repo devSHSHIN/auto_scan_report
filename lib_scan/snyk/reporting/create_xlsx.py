@@ -53,7 +53,7 @@ def load_txt(log_path):
 
 def modify_data(data):
     data.iloc[:, 4] = "취약"
-    data.iloc[:, 11] = data.iloc[:, 11].apply(lambda x: f"외 {x}개" if x > 0 else "")
+    data.iloc[:, 11] = data.iloc[:, 11].apply(lambda x: f"외 {int(x)}개" if pd.notna(x) and isinstance(x, (int, float)) and x > 0 else "")
 
     data.iloc[0, 6] = "-"
     data.iloc[0, 12] = "ex) yyyy-mm-dd"
