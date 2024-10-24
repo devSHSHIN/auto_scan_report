@@ -52,6 +52,10 @@ def load_txt(log_path):
     return log_content, line_cnt
 
 def modify_data(data):
+    if data.empty:
+        print("발견된 취약점이 없습니다.")
+        return None  # 또는 시스템 종료 시 `sys.exit()` 사용 가능
+
     data.iloc[:, 4] = "취약"
     data.iloc[:, 11] = data.iloc[:, 11].apply(lambda x: f"외 {int(x)}개" if pd.notna(x) and isinstance(x, (int, float)) and x > 0 else "")
 
