@@ -97,6 +97,7 @@ def set_table(ws, data):
     font = Font(name='맑은 고딕', size=10, color="000000")
 
     for issue in data.itertuples(index=False, name=None):
+        issue = [str(item) if isinstance(item, list) else item for item in issue]
         ws.append(issue)
         now_row = f"B{ws.max_row}:P{ws.max_row}"
 
