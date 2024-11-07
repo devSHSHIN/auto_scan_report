@@ -13,8 +13,8 @@ def main():
     print("================================")
     print("|\t다음 옵션 중 입력하세요.")
     print("--------------------------------")
-    #comm = input('(1)ALL (2)Fortify (3)Snyk: ')
-    comm = "3"
+    comm = input('(1)ALL (2)Fortify (3)Snyk :\t')
+    #comm = "3"
     pro_id = input('project_ID: ')
     #pro_id = "c4ca5e62-53de-493a-8028-e903871a69fa"
 
